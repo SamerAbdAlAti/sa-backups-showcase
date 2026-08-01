@@ -24,10 +24,11 @@ SA Backups sits quietly in your Windows system tray and keeps your important fol
 **[⬇ Download the latest release (Windows x64)](https://github.com/SamerAbdAlAti/sa-backups-showcase/releases/latest)**
 
 - Requires **Windows 10 or 11, 64-bit**
-- Portable — unzip and run `sa_backups.exe`, no installer required
-- If the app doesn't launch, install the latest **Microsoft Visual C++ Redistributable (x64)** (a common one-time requirement for Windows desktop apps)
+- Two ways to get it from the [Releases page](https://github.com/SamerAbdAlAti/sa-backups-showcase/releases/latest): a one-click **installer**, or a **portable zip** — unzip and run `sa_backups.exe`, no install needed
+- If it doesn't launch, install the latest **Microsoft Visual C++ Redistributable (x64)** (a common one-time requirement for Windows desktop apps)
+- First time signing in with Google, you may see an "unverified app" warning — click **Advanced → Go to SA Backups** to continue
 
-> **Note:** This is a public demo build. Google Drive sign-in is intentionally disabled in this build for security reasons (see [About](#about) below) — the interface and local backup features are fully explorable.
+> **Note:** Google Drive sign-in in this build is real and fully functional — it routes through a dedicated backend proxy that keeps the OAuth client secret server-side, so no Google credentials of any kind are embedded in this download. See [About](#about).
 
 ## Screenshots
 
@@ -62,16 +63,17 @@ SA Backups sits quietly in your Windows system tray and keeps your important fol
 - **Architecture:** Clean Architecture, feature-first (data / domain / presentation per feature)
 - **State management:** flutter_bloc (Cubit)
 - **Dependency injection:** get_it
-- **Cloud integration:** Google Drive API v3 via `googleapis` / `googleapis_auth`, OAuth 2.0
+- **Cloud integration:** Google Drive API v3 via `googleapis`, OAuth 2.0 handled through a dedicated backend proxy
+- **Backend:** Laravel — owns the Google OAuth client secret and refresh tokens (encrypted at rest) server-side; the desktop app never holds any Google credentials, only short-lived access tokens
 - **Native Windows integration:** `window_manager`, `tray_manager`, `launch_at_startup`
 
 ## About
 
-SA Backups is a real, actively-used production application — this repository is a public showcase of it. **The source code is kept private**; this repo contains only documentation and a downloadable Windows build with cloud sign-in disabled, so the app can be explored safely without exposing implementation details or live credentials.
+SA Backups is a real, actively-used production application — this repository is a public showcase of it. **The source code is kept private**, but unlike most closed-source demos, this download isn't a crippled build — it's the real app with fully working Google Drive sign-in, made safe to distribute publicly by routing OAuth through a small backend service that keeps all credentials server-side instead of embedding them in the binary.
 
 ## My Role
 
-Designed and built solo, end-to-end: architecture, all four feature modules (auth, backup targets, scheduling/settings, backup execution), the Google Drive integration, the background scheduler and file-watcher services, native Windows system-tray/startup integration, and the full Arabic RTL UI.
+Designed and built solo, end-to-end: architecture, all four feature modules (auth, backup targets, scheduling/settings, backup execution), the Google Drive integration, the background scheduler and file-watcher services, native Windows system-tray/startup integration, the full Arabic RTL UI, and the Laravel backend proxy that keeps this public build safe to distribute.
 
 ---
 
